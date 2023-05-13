@@ -1,0 +1,88 @@
+import java.util.Scanner;
+
+public class Time {
+    private int sec;
+    private int min;
+    private int hour;
+
+    // Constructor
+    public Time(int sec, int min, int hour) {
+        this.sec = sec;
+        this.min = min;
+        this.hour = hour;
+    }
+
+    // Public method to read time from keyboard
+    public void readTime() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter hour (positive integer): ");
+        this.hour = scanner.nextInt();
+        System.out.print("Enter minute (between 0 and 59): ");
+        this.min = scanner.nextInt();
+        System.out.print("Enter second (between 0 and 59): ");
+        this.sec = scanner.nextInt();
+        scanner.close();
+        fixTime();
+    }
+
+    // Private method to fix time
+    private void fixTime() {
+        if (this.sec >= 60) {
+            this.min += this.sec / 60;
+            this.sec = this.sec % 60;
+        }
+        if (this.min >= 60) {
+            this.hour += this.min / 60;
+            this.min = this.min % 60;
+        }
+        if (this.hour < 0) {
+            this.hour = 0;
+        }
+    }
+
+    // Public method to display time
+    public void display() {
+        System.out.printf("%d:%02d:%02d\n", this.hour, this.min, this.sec);
+    }
+
+    // Public method to compare two Time objects
+    public boolean isGreaterThan(Time other) {
+        if (this.hour > other.hour) {
+            return true;
+        } else if (this.hour == other.hour && this.min > other.min) {
+            return true;
+        } else if (this.hour == other.hour && this.min == other.min && this.sec > other.sec) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Time t1 = new Time(0, 0, 0);
+        Time t2 = new Time(0, 0, 0);
+
+        // Read and fix time for t1 and t2
+        System.out.println("Enter time for t1:");
+        t1.readTime();
+        System.out.println("Enter time for t2:");
+        t2.readTime();
+
+        // Display t1 and t2
+        System.out.println("Time for t1:");
+        t1.display();
+        System.out.println("Time for t2:");
+        t2.display();
+
+        // Compare t1 and t2
+        if (t1.isGreaterThan(t2)) {
+            System.out.println("t1 is greater than t2");
+        } else if (t2.isGreaterThan(t1)) {
+            System.out.println("t2 is greater than t1");
+        } else {
+            System.out.println("t1 and t2 are equal");
+        }
+    }
+}
